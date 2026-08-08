@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronDown, GalleryVerticalEnd, Loader2, LogOut, Shirt, Zap } from "lucide-react";
-
 import { useAuth } from "@/lib/auth-context";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -44,14 +43,14 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a0812]/80 backdrop-blur">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-3 px-4 sm:px-6">
-        <Link href="/" className="flex min-w-0 items-center gap-2 font-bold">
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+        <Link href="/app" className="flex min-w-0 items-center gap-2 font-bold">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 text-white shadow-[0_0_15px_rgba(147,51,234,0.5)]">
             <Shirt className="size-4" />
           </span>
-          <span className="truncate text-sm sm:text-base">
-            AI Virtual Wardrobe
+          <span className="truncate text-sm text-white sm:text-base">
+            TryOutfit
           </span>
         </Link>
 

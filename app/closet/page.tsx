@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { Download, Lock, Sparkles } from "lucide-react";
 
+import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -40,15 +42,18 @@ export default async function ClosetPage() {
   const generations = (data ?? []) as Generation[];
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-          My Closet
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Every look you&apos;ve generated, saved to your account.
-        </p>
-      </header>
+    <div className="flex min-h-dvh flex-col">
+      <SiteHeader />
+      <main className="flex flex-1 flex-col">
+        <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
+          <header className="mb-6">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              My Closet
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Every look you&apos;ve generated, saved to your account.
+            </p>
+          </header>
 
       {generations.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-neutral-800 py-20 text-center">
@@ -97,6 +102,9 @@ export default async function ClosetPage() {
           ))}
         </div>
       )}
+        </div>
+      </main>
+      <SiteFooter />
     </div>
   );
 }
