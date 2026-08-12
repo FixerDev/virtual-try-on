@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const GUMROAD_SELLER_ID = process.env.GUMROAD_SELLER_ID;
 
 const CREDITS_PER_PURCHASE = 100;
 
@@ -14,16 +15,6 @@ interface ProfileRow {
   credits: number;
 }
 
-/**
- * Gumroad webhook handler (https://gumroad.com/webhooks).
- *
- * Gumroad sends `application/x-www-form-urlencoded` webhooks. On a "sale"
- * event with `refunded` !== "true", we credit the buyer's TryOutfit account
- * with CREDITS_PER_PURCHASE credits.
- *
- * Configure this endpoint as the webhook URL in your Gumroad product
- * settings. Verify authenticity with a signature check in production.
- */
 export async function POST(request: Request) {
   if (!url || !serviceRoleKey) {
     return Response.json(
@@ -32,13 +23,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const admin: SupabaseClient = createClient(url, serviceRoleKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
-
+  // --- NEW: Seller ID validation ---
   let formData: FormData;
   try {
     formData = await request.formData();
@@ -46,8 +31,25 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid form data." }, { status: 400 });
   }
 
-  const email = (formData.get("email") as string | null)?.trim().toLowerCase();
-  const refunded = (formData.get("refunded") as string | null)?.toLowerCase();
+  const sellerId = formData.get("seller_id") as string | null;
+  // Strict comparison against the env var
+  if (sellerId !== GUMROAD_SELLER_ID) {
+    return Response.json(
+      { error: "Unauthorized seller." },
+      { status: 401 }
+    );
+  }
+  // --------------------------------
+
+  let formDataBody: FormData;
+  try {
+    formDataBody = await request.formData();
+  } catch {
+    return Response.json({ error: "Invalid form data." }, { status: 400 });
+  }
+
+  const email = (formDataBody.get("email") as string | null)?.trim().toLowerCase();
+  const refunded = (formDataBody.get("refunded") as string | null)?.toLowerCase();
 
   if (!email) {
     return Response.json({ error: "Missing email." }, { status: 400 });
@@ -57,6 +59,13 @@ export async function POST(request: Request) {
   if (refunded === "true") {
     return Response.json({ ok: true, credited: false });
   }
+
+  const admin: SupabaseClient = createClient(url, serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
 
   const { data: profile, error: lookupError } = await admin
     .from("profiles")
