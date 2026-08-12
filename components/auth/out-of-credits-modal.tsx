@@ -3,6 +3,7 @@
 import { Zap } from "lucide-react";
 
 import { useAuth } from "@/lib/auth-context";
+import { GUMROAD_CHECKOUT_URL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 
 export function OutOfCreditsModal() {
-  const { outOfCreditsOpen, closeOutOfCredits, openAuth, profile } = useAuth();
+  const { outOfCreditsOpen, closeOutOfCredits } = useAuth();
 
   return (
     <Dialog open={outOfCreditsOpen} onOpenChange={(open) => !open && closeOutOfCredits()}>
@@ -23,12 +24,11 @@ export function OutOfCreditsModal() {
             <Zap className="size-5" />
           </div>
           <DialogTitle className="text-center sm:text-left">
-            You&apos;re out of credits
+            You need credits
           </DialogTitle>
           <DialogDescription className="text-center sm:text-left">
-            {profile?.credits === 0
-              ? "You've used all of your free credits. New credits will be available soon."
-              : "You need at least 1 credit to generate an outfit. New credits will be available soon."}
+            You need at least 1 credit to generate an outfit. Purchase a credit
+            pack to keep creating.
           </DialogDescription>
         </DialogHeader>
 
@@ -38,10 +38,10 @@ export function OutOfCreditsModal() {
             className="w-full"
             onClick={() => {
               closeOutOfCredits();
-              openAuth();
+              window.open(GUMROAD_CHECKOUT_URL, "_blank", "noopener,noreferrer");
             }}
           >
-            Sign in to your account
+            Get 100 Credits ($19)
           </Button>
           <Button
             variant="outline"

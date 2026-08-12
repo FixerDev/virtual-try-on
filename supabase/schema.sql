@@ -6,12 +6,12 @@
 -- =============================================================
 
 -- -------------------------------------------------------------
--- Profiles (1:1 with auth.users), starts with 10 free credits.
+-- Profiles (1:1 with auth.users), starts with 0 credits.
 -- -------------------------------------------------------------
 create table if not exists public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   email text,
-  credits integer not null default 10 check (credits >= 0),
+  credits integer not null default 0 check (credits >= 0),
   created_at timestamptz not null default now()
 );
 
@@ -23,7 +23,7 @@ set search_path = public
 as $$
 begin
   insert into public.profiles (id, email, credits)
-  values (new.id, new.email, 10)
+  values (new.id, new.email, 0)
   on conflict (id) do nothing;
   return new;
 end;

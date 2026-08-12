@@ -1,0 +1,1 @@
+export const GUMROAD_CHECKOUT_URL = "https://justdoer.gumroad.com/l/tryoutfit-pro";

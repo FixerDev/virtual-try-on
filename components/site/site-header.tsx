@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronDown, GalleryVerticalEnd, Loader2, LogOut, Shirt, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import { GUMROAD_CHECKOUT_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -56,16 +56,18 @@ export function SiteHeader() {
 
         <div className="ml-auto flex items-center gap-2">
           {isConfigured && !loading && user && (
-            <Badge
-              variant="secondary"
+            <a
+              href={GUMROAD_CHECKOUT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
-                "gap-1.5 px-2.5 py-1 text-xs",
-                (profile?.credits ?? 0) === 0 && "text-amber-400"
+                "inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-500 px-3 py-1.5 text-xs font-semibold text-white shadow-[0_0_15px_rgba(147,51,234,0.4)] transition-all hover:shadow-[0_0_20px_rgba(147,51,234,0.6)] hover:brightness-110",
+                (profile?.credits ?? 0) === 0 && "animate-pulse"
               )}
             >
               <Zap className="size-3.5 fill-current" />
-              {profile?.credits ?? 0} Credits
-            </Badge>
+              Go Pro · {profile?.credits ?? 0} Credits
+            </a>
           )}
 
           {loading ? (

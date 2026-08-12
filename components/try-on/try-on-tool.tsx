@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner";
 
 import { useAuth } from "@/lib/auth-context";
+import { GUMROAD_CHECKOUT_URL } from "@/lib/constants";
 import { supabase } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -96,7 +97,6 @@ export function TryOnTool() {
     profile,
     isConfigured,
     openAuth,
-    openOutOfCredits,
     refreshProfile,
   } = useAuth();
 
@@ -185,7 +185,10 @@ export function TryOnTool() {
       return;
     }
     if (!profile || profile.credits <= 0) {
-      openOutOfCredits();
+      toast.info(
+        "You need credits to generate an outfit. Redirecting to checkout..."
+      );
+      window.open(GUMROAD_CHECKOUT_URL, "_blank", "noopener,noreferrer");
       return;
     }
 
@@ -247,7 +250,6 @@ export function TryOnTool() {
     mode,
     uploadToStorage,
     openAuth,
-    openOutOfCredits,
     refreshProfile,
   ]);
 

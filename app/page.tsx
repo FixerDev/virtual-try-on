@@ -2,6 +2,7 @@
 
 import { useCallback, useState, useEffect } from "react";
 import Link from "next/link";
+import { GUMROAD_CHECKOUT_URL } from "@/lib/constants";
 import {
   ArrowRight,
   Camera,
@@ -238,7 +239,7 @@ function PricingSection() {
             </ul>
 
             <Link
-              href="https://justdoer.gumroad.com/l/tryoutfit-pro"
+              href={GUMROAD_CHECKOUT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 rounded-full bg-purple-600 px-6 py-3.5 text-center text-sm font-semibold text-white shadow-[0_0_25px_rgba(147,51,234,0.5)] transition-all hover:bg-purple-500 hover:shadow-[0_0_35px_rgba(147,51,234,0.7)]"

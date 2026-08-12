@@ -86,7 +86,7 @@ export function AuthModal() {
         if (error) throw error;
         if (data.session) {
           closeAuth();
-          toast.success("Account created. You received 10 free credits!");
+          toast.success("Account created. Welcome to TryOutfit!");
         } else {
           toast.success("Check your email to confirm your account.");
         }

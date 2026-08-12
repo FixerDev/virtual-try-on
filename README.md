@@ -11,8 +11,8 @@ generate a high-resolution preview powered by [fal.ai](https://fal.ai).
 ## Features
 
 - **Accounts & credits**: Email/Password + Google OAuth via Supabase. New users
-  get 10 free credits; one credit is consumed per generation (and refunded on
-  failure).
+  start with 0 credits and buy a credit pack via Gumroad; one credit is consumed
+  per generation (and refunded on failure).
 - **Responsive UI**: stacked single-column flow on mobile with a sticky bottom
   "Generate Outfit" bar; uploads sit side-by-side and pills go in a row on
   desktop.
