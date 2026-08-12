@@ -66,7 +66,7 @@ export function SiteHeader() {
               )}
             >
               <Zap className="size-3.5 fill-current" />
-              Go Pro · {profile?.credits ?? 0} Credits
+              Get Credits
             </a>
           )}
 

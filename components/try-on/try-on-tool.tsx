@@ -227,10 +227,18 @@ export function TryOnTool() {
     } catch (error) {
       const isAbort =
         error instanceof DOMException && error.name === "AbortError";
+      const isOutOfCredits =
+        error instanceof Error &&
+        error.message.toLowerCase().includes("out of credits");
 
       setBusy(false);
       if (isAbort) {
         toast.info("Request cancelled", { id: "try-on-progress" });
+      } else if (isOutOfCredits) {
+        toast.info("Redirecting to checkout...", {
+          id: "try-on-progress",
+        });
+        window.open(GUMROAD_CHECKOUT_URL, "_blank", "noopener,noreferrer");
       } else {
         toast.error("Try-on failed", {
           id: "try-on-progress",
