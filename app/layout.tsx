@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from '@vercel/analytics/react';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
@@ -64,6 +65,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <OutOfCreditsModal />
         </AuthProvider>
         <Toaster />
+      <body>
+  {children}
+  <Analytics />
+</body>
+
+
       </body>
     </html>
   );
