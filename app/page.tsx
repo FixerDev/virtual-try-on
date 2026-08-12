@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -69,9 +69,9 @@ const TIERS = [
       "Early access to new models",
       "Priority support",
     ],
-    cta: "Start Free Trial (10 Credits)",
+    cta: "Get 100 Credits ($19)",
     disclaimer:
-      "Requires a valid card to prevent abuse. Cancel anytime before your 10 credits are used, and you won't be charged.",
+      "Requires a valid card to prevent abuse. Cancel anytime before your 100 credits are used, and you won't be charged.",
   },
 ];
 
@@ -86,11 +86,11 @@ const FAQS = [
   },
   {
     q: "What are credits and how do I get them?",
-    a: "Each generation costs one image credit. Start a free trial and we'll add 10 credits immediately so you can try the magic — no charge until you use them. The Pro Plan includes 100 image credits every month.",
+    a: "Each generation costs one image credit. Start a subscription and we'll add 100 credits immediately so you can try the magic — no charge until you use them. The Pro Plan includes 100 image credits every month.",
   },
   {
-    q: "How does the free trial work?",
-    a: "Start the free trial and you'll get 10 credits right away. We require a valid card to prevent abuse, but you can cancel anytime before your 10 credits are used and you won't be charged.",
+    q: "How does the subscription work?",
+    a: "Subscribe to the Pro Plan for $19/month and receive 100 image credits each month. You can cancel anytime before your credits are used and you won't be charged.",
   },
   {
     q: "Can I cancel my Pro subscription?",
@@ -304,6 +304,16 @@ function FaqSection() {
 }
 
 export default function HomePage() {
+  // Auto-redirect logged-in users from homepage to /app
+  const { user } = useAuth();
+  useEffect(() => {
+    // Only run on the client
+    if (typeof window === 'undefined') return;
+    if (user && window.location.pathname === '/') {
+      window.location.replace('/app');
+    }
+  }, [user]);
+
   return (
     <div className="min-h-dvh bg-[#0a0812] text-white">
       <MarketingHeader />
@@ -321,12 +331,9 @@ export default function HomePage() {
               Powered by next-gen AI try-on
             </span>
 
-            <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-tight sm:text-6xl">
-              See the magic{" "}
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-300 bg-clip-text text-transparent">
-                on you
-              </span>
-            </h1>
+            <h3 className="text-2xl font-semibold text-white sm:text-4xl">
+              Try It On
+            </h3>
 
             <p className="mt-5 max-w-xl text-base text-white/60 sm:text-lg">
               Upload a photo of yourself and preview how hundreds of garments
@@ -345,7 +352,7 @@ export default function HomePage() {
                 href="/app"
                 className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-white/10"
               >
-                Try It Free
+                Get Started
               </Link>
             </div>
           </div>
