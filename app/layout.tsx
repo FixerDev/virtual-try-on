@@ -65,12 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <OutOfCreditsModal />
         </AuthProvider>
         <Toaster />
-      <body>
-  {children}
-  <Analytics />
-</body>
-
-
+        <Analytics />
       </body>
     </html>
   );
